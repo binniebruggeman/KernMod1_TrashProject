@@ -36,7 +36,8 @@ void setup() {
  
 void loop() {
   delay(50);
-  
+
+  //get distance to object in cm
   float range = sonar.ping_cm();
   if ((range >= 1) && (range <= 10) && (range != 0)){
     Serial.println("Trash detected!");
