@@ -1,4 +1,5 @@
 /*
+SPEAKER
 Attach the + of the speaker with a 220 Ohm resistor to pin 8 on Arduino
 Attach the - of the speaker to GND
 */
