@@ -13,7 +13,9 @@
 //Ultrasonic sensor
 int trigPin = 12;
 int echoPin = 11;
-bool trashDetected = false;
+
+//not using this boolean yet, will use in version 2
+//bool trashDetected = false; 
 
 //Speaker
 int speakerPin = 8;
@@ -53,28 +55,27 @@ void loop() {
   
   if (distance < 2) {
     playTone(NOTE_C4, 10);
-    Serial.print("< 2");
+    Serial.println("< 2");
   } else  if (distance < 4) {
     playTone(NOTE_C4, 8);
-    Serial.print("< 4");
+    Serial.println("< 4");
   } else if (distance < 5) {
     playTone(NOTE_C4, 7);
-    Serial.print("< 5");
+    Serial.println("< 5");
   } else if (distance < 6) {
     playTone(NOTE_C4, 5);
-    Serial.print("< 6");
+    Serial.println("< 6");
   } else if (distance < 10) {
     playTone(NOTE_C4, 4);
-    Serial.print("< 10");
+    Serial.println("< 10");
   } else if (distance < 20) {
     playTone(NOTE_C4, 3);
-    Serial.print("< 20");
-  } else if (distance < 25) {
-    playTone(NOTE_C4, 2);
-    Serial.print("<25");
-  } else if (distance < 30) {
-    playTone(NOTE_C4, 1);
-  }
+    Serial.println("< 20");
+  } else {
+    Serial.print("Distance: ");
+    Serial.println(distance);
+    delay(500);
+    }
 }
 
 
@@ -94,11 +95,9 @@ void playTone(int note, int noteDuration) {
 }
 
 long microsecondsToCm(long microseconds) {
-  // According to Parallax's datasheet for the PING))), there are
-  // 73.746 microseconds per inch (i.e. sound travels at 1130 feet per
-  // second).  This gives the distance travelled by the ping, outbound
-  // and return, so we divide by 2 to get the distance of the obstacle.
-  // See: http://www.parallax.com/dl/docs/prod/acc/28015-PING-v1.3.pdf
+  //The soundwave is travelling from the sensor to the object and back again from 
+  //the object to the sensor. Therefor to get the distance to the object (in microsenconds)
+  //we need to devide it by 2. Next we devide by 29.1 to get a distance in cm.
   return (microseconds/2) / 29.1;
 }
 
