@@ -37,61 +37,65 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(2, HIGH);
-  // establish variables for duration of the ping,
-  // and the distance result in inches and centimeters.
-  long duration, distance;
+  while (playOnce == true) {
+    digitalWrite(2, HIGH);
+    // establish variables for duration of the ping,
+    // and the distance result in inches and centimeters.
+    long duration, distance;
 
-  // The ping is triggered by a HIGH pulse of 2 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
-  pinMode(trigPin, OUTPUT);// attach pin 3 to Trig
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(5);
-  digitalWrite(trigPin, LOW);
+    // The ping is triggered by a HIGH pulse of 2 or more microseconds.
+    // Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
+    pinMode(trigPin, OUTPUT);// attach pin 3 to Trig
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(5);
+    digitalWrite(trigPin, LOW);
 
-  // The same pin is used to read the signal from the ping. The ping is a
-  // HIGH pulse, whose duration is the time (in microseconds) from the sending
-  // of the ping to the reception of its echo off of an object.
-  pinMode (echoPin, INPUT);//attach pin 4 to Echo
-  duration = pulseIn(echoPin, HIGH);
+    // The same pin is used to read the signal from the ping. The ping is a
+    // HIGH pulse, whose duration is the time (in microseconds) from the sending
+    // of the ping to the reception of its echo off of an object.
+    pinMode (echoPin, INPUT);//attach pin 4 to Echo
+    duration = pulseIn(echoPin, HIGH);
 
-  // convert the time into a distance in cm
-  distance = microsecondsToCm(duration);
+    // convert the time into a distance in cm
+    distance = microsecondsToCm(duration);
 
-  if (distance > 1 && distance < 15 ) {
-    trashDetection = true;
-  }
-
-  if (trashDetection == true && playOnce == true) {
-    playOnce = false;
-    Serial.print("Trash detected at: ");
-    Serial.print(distance);
-    Serial.println(" cm");
-
-    Serial.print("playOnce: ");
-    Serial.println(playOnce);
-
-    for (int thisNote = 0; thisNote < 8; thisNote++) {
-      // to calculate the note duration, take one second divided by the note type.
-      //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-      int noteDuration = 1000 / noteDurations[thisNote];
-      tone(8, melody[thisNote], noteDuration);
-
-      // to distinguish the notes, set a minimum time between them.
-      // the note's duration + 30% seems to work well:
-      int pauseBetweenNotes = noteDuration * 1.30;
-      delay(pauseBetweenNotes);
-      // stop the tone playing:
-      noTone(8);
-    }
-    
-  } else {
     Serial.print("Distance: ");
     Serial.print(distance);
-    Serial.println(" cm");
-    //    delay(100);
+    Serial.println(" cm, ");
+    Serial.println("-----EMPTY-----");
+    //delay(100);
+
+    if (distance > 0 && distance < 15 ) {
+      trashDetection = true;
+    }
+
+    if (trashDetection == true && playOnce == true) {
+      playOnce = false;
+      Serial.print("Trash detected at: ");
+      Serial.print(distance);
+      Serial.println(" cm");
+
+      Serial.print("playOnce: ");
+      Serial.println(playOnce);
+      Serial.println("-----------------------------WE HAVE A WINNER!-----------------------------");
+
+      for (int thisNote = 0; thisNote < 8; thisNote++) {
+        // to calculate the note duration, take one second divided by the note type.
+        //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+        int noteDuration = 1000 / noteDurations[thisNote];
+        tone(8, melody[thisNote], noteDuration);
+
+        // to distinguish the notes, set a minimum time between them.
+        // the note's duration + 30% seems to work well:
+        int pauseBetweenNotes = noteDuration * 1.30;
+        delay(pauseBetweenNotes);
+        // stop the tone playing:
+        noTone(8);
+      }
+    }
+    
   }
 }
 
