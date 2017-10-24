@@ -1,14 +1,22 @@
 /*
- HC-SR04 Ultrasonic Sensor
+ _____HC-SR04 Ultrasonic Sensor______
  Range: 2 cm - 400 cm
  Resolution: 0,3 cm
- Echo (receives the signal) to Arduino pin 13
+ VCC to arduino pin 2, GND to arduino pin 5
+ Echo (receives the signal) to Arduino pin 11
  Trig (sends the signal) to Arduino pin 12
- If connecting using a single pin, specify the same pin for both trigger_pin and echo_pin as the same pin is doing both functions
- VCC to arduino 5v, GND to arduino GND
+ If connecting using a single pin, specify the same pin 
+ for both trigger_pin and echo_pin, as the same pin is doing both functions.gggh
+ 
+
+ _____Speaker_____
+ I'm using a 4 ohm speaker. To limit the current to a safe level with this speaker, 
+ you need to put a 220 ohm resistor between the + pin of the speaker and pin 8 on Arduino
+ + to Arduino pin 8
+ - to Arduino GND
  */
 #include "pitches.h"
-//#define NOTE_C4  262
+//#define NOTE_C4  262/;;;;;;;;;;;;;;;;;;;;;
 int melody[] = {
   NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4
 };
